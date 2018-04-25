@@ -1,0 +1,11 @@
+body{
+    background: #ddd;
+    color: #0ff;
+}
+#pic{
+    width: 500px;
+    height: 400px;
+    background: url(../images/timg.59ff98c7fc899460c927e0bd8842a0e0.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
