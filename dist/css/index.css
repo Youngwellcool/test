@@ -1,11 +1,24 @@
-body{
-    background: #ddd;
-    color: #0ff;
+body {
+  background: #ddd;
+  color: #f0f;
 }
-#pic{
-    width: 500px;
-    height: 400px;
-    background: url(../images/timg.59ff98c7fc899460c927e0bd8842a0e0.jpg);
-    background-size: contain;
-    background-repeat: no-repeat;
+
+#pic {
+  background: url(../images/timg.59ff98c7fc899460c927e0bd8842a0e0.jpg);
+  width: 500px;
+  height: 400px;
+  -webkit-transform: translateX(100px);
+  transform: translateX(100px);
+  -webkit-box-shadow: 0 0 10px #ddd;
+  box-shadow: 0 0 10px #ddd;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#black {
+  width: 100px;
+  height: 100px;
+  background: #000;
 }
