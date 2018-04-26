@@ -1,7 +1,7 @@
 import css from './css/index.css';
 import black from './less/black.less';
 import main2 from './main2.js'
-
+// import Vue from 'vue'
 /**
  * 引入第三方库
  * 这种引入第三方库的方式是局部引入，没有全局引入
@@ -16,3 +16,10 @@ let str = "Hello World and Webpack";
 document.getElementById('title').innerHTML = str;
 console.log(str);
 $('#title').html('测试jQuery引入是否成功');
+console.log(Vue)
+var vm = new Vue({
+    el:'#app',
+    data:{
+        str:'Hello Vue'
+    }
+})

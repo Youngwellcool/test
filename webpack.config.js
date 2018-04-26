@@ -112,8 +112,12 @@ module.exports = {
         new purifyCssPlugin({  
             paths: glob.sync(path.join(__dirname, 'src/*.html'))  // 主要是寻找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了。
         }),
+        /**
+         * 全局引用jQuery和vue
+         */
         new webpack.ProvidePlugin({
-            $:'jquery'
+            $:'jquery',
+            Vue:'vue'
         })
 
     ],  
@@ -127,6 +131,11 @@ module.exports = {
         //配置服务端口号
         port: 1717,
         // open: true
+    },
+    resolve: {
+        alias: { // 设置别名 
+            'vue': 'vue/dist/vue.js'  // 设置vue=vue/dist/vue.js，不手动设置的话默认vue=vue/dist/vue.runtime.js(引用运行时的vue就会报错)
+            }
     }
 
 }
