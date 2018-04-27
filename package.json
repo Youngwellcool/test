@@ -39,13 +39,16 @@
   },
   "dependencies": {
     "html-withimg-loader": "^0.1.16",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "vue": "^2.5.16"
   },
   "browserslist": [
     "defaults",
     "last 2 versions",
     "> 1%",
     "iOS 7",
-    "last 3 iOS versions"
+    "last 3 iOS versions",
+    "last 5 Firefox versions",
+    "last 5 Opera versions"
   ]
 }

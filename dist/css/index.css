@@ -1,8 +1,23 @@
+<<<<<<< HEAD
 body {
   background: #ddd;
   color: #f0f;
 }
 
+=======
+#black {
+  width: 200px;
+  height: 200px;
+  background: #000;
+  color: #fff;
+}
+
+body {
+  background: #ddd;
+  color: #f0f;
+}
+
+>>>>>>> b7a105020ce8fa35ee865e25c9968bc9931493b7
 #pic {
   background: url(../images/timg.59ff98c7fc899460c927e0bd8842a0e0.jpg);
   width: 500px;
@@ -15,10 +30,13 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+<<<<<<< HEAD
 }
 
 #black {
   width: 100px;
   height: 100px;
   background: #000;
+=======
+>>>>>>> b7a105020ce8fa35ee865e25c9968bc9931493b7
 }

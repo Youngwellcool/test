@@ -4,7 +4,11 @@ const extractPlugin = require('extract-text-webpack-plugin');
 const htmlPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const purifyCssPlugin = require('purifycss-webpack');
+<<<<<<< HEAD
 const entry =  require('./webpack_config/entry_webpack.js');  // 引入自定义的一个打包入口文件
+=======
+const entry =  require('./webpack_config/entry_webpack.js');  // 引入自定义的一个打包入口模块
+>>>>>>> b7a105020ce8fa35ee865e25c9968bc9931493b7
 let websit = {
     publicPath:'http://127.0.0.1:1717'
 }
@@ -112,8 +116,13 @@ module.exports = {
         new purifyCssPlugin({  
             paths: glob.sync(path.join(__dirname, 'src/*.html'))  // 主要是寻找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了。
         }),
+
+        /**
+         * 全局引用jQuery和vue
+         */
         new webpack.ProvidePlugin({
-            $:'jquery'
+            $:'jquery',
+            Vue:'vue'
         })
 
     ],  
@@ -127,6 +136,11 @@ module.exports = {
         //配置服务端口号
         port: 1717,
         // open: true
+    },
+    resolve: {
+        alias: { // 设置别名 
+            'vue': 'vue/dist/vue.js'  // 设置vue=vue/dist/vue.js，不手动设置的话默认vue=vue/dist/vue.runtime.js(引用运行时的vue就会报错)
+            }
     }
 
 }
