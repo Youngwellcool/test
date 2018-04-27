@@ -1,0 +1,1 @@
+$('#black').html("测试是否全局引入了jQuery(全局引入jQuery成功)")
