@@ -14,6 +14,7 @@ import main2 from './main2.js'
 let str = "Hello World and Webpack";
 
 document.getElementById('title').innerHTML = str;
+// document.getElementById('json').innerHTML = json.name;
 console.log(str);
 $('#title').html('测试jQuery引入是否成功');
 console.log(Vue)

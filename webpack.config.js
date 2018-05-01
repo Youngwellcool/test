@@ -4,10 +4,17 @@ const extractPlugin = require('extract-text-webpack-plugin');
 const htmlPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const purifyCssPlugin = require('purifycss-webpack');
+const copyPlugin = require('copy-webpack-plugin');
+// const json = require('../config.json');
 const entry =  require('./webpack_config/entry_webpack.js');  // 引入自定义的一个打包入口模块
 let websit = {
     publicPath:'http://127.0.0.1:1717'
 }
+var styleCss = new extractPlugin('css/index.css')
+var lessCss = new extractPlugin('css/black.css')
+console.log(path.resolve(__dirname,'dist'))  // 将dist文件解析为一个绝对路径
+console.log(__dirname);  // 当前文件的绝对目录
+console.log(__filename); // 当前文件的绝对路径
 /**
  * 切换开发模式和生产模式
  * 在package.json中的“scripts”中设置type的值(set type=dev&webpack // 将dev赋值给type并执行webpack打包命令)
@@ -15,14 +22,18 @@ let websit = {
  */
 if(process.env.type == 'dev'){  
     console.log('开发模式')
-}else{
+    var mode = "development";
+}else if(process.env.type == 'build'){
     console.log('生产模式')
+    var mode = "production";
+}else {
+    var mode = "development";
 }
 console.log(encodeURIComponent(process.env.type));
 
 module.exports = {
     devtool: '#cheap-module-eval-source-map',  // 开启cheap-module-eval-source-map模式的sourcemap
-    mode: "development", //"production"
+    mode: mode,//"development", //"production"
     // entry:{
     //     main:"./src/main1.js"
     // },
@@ -31,27 +42,59 @@ module.exports = {
         path:path.resolve(__dirname,'dist'),
         filename:'bundle.js',
         // publicPath:websit.publicPath
+        // chunkFilename:[name].js,
     },
     module:{
         rules:[
+
+            /**
+             * css代码分离到两个文件中
+             * .css文件的分离到styleCss创建的css/index.css中
+             * .less文件的分离到lessCss创建的css/black.css中
+             */
             {
-                test: /\.(css|less)$/,
-                use: extractPlugin.extract({   // css代码分离插件
-                    fallback: "style-loader",
-                    // use: "css-loader",
+                test:/\.css$/,
+                use:styleCss.extract({
+                    use:'css-loader',
+                    publicPath:'../'    // TODO 解决分离后的css的图片url路径问题
+                }),
+            },
+            {
+                test:/\.less$/,
+                use:lessCss.extract({
                     use:[{
-                        loader: "css-loader"
-                    }, {
-                        loader: "less-loader"
-                    },
-                    // {
-                    //     loader: "sass-loader"
-                    // }
-                        'postcss-loader',  // 对css新特性，自动补全前缀，需和插件autoprefixer（自动添加前缀的插件）一起使用，此外还需在该配置文件的同级目录下新建postcss.config.js文件，默认只会补全-webkit-前缀，如需补全其他前缀需在package.json中添加browserslist参数配置
-                ],
+                            loader: "css-loader"
+                        }, {
+                            loader: "less-loader"
+                        }],
                     publicPath:'../'    // TODO 解决分离后的css的图片url路径问题
                 })
             },
+
+            /**
+             * 所有css代码分离到同一个文件中
+             */
+
+            // {
+            //     test: /\.(css|less)$/,
+            //     use: extractPlugin.extract({   // css代码分离插件
+            //         fallback: "style-loader",
+            //         // use: "css-loader",
+            //         use:[{
+            //             loader: "css-loader"
+            //         }, {
+            //             loader: "less-loader"
+            //         },
+            //         // {
+            //         //     loader: "sass-loader"
+            //         // }
+            //             'postcss-loader',  // 对css新特性，自动补全前缀，需和插件autoprefixer（自动添加前缀的插件）一起使用，此外还需在该配置文件的同级目录下新建postcss.config.js文件，默认只会补全-webkit-前缀，如需补全其他前缀需在package.json中添加browserslist参数配置
+            //     ],
+            //         publicPath:'../'    // TODO 解决分离后的css的图片url路径问题
+            //     })
+            // },
+
+
             /*** 因为用了css代码分离插件，所以less/sass的loader配置也要写到上面的extractPlugin.extract()配置中，不然像下面这样再写一个less/sass的loader，打包时就会报错 * */
             // {
             //     test:/\.less$/,
@@ -97,7 +140,9 @@ module.exports = {
     },
     plugins:[
         // new webpack.HotModuleReplacementPlugin()
-        new extractPlugin('css/index.css'),
+        //new extractPlugin('css/index.css'),
+        styleCss,
+        lessCss,
         new htmlPlugin({  // 打包生成html插件
             minify:{  // 是对html文件进行压缩，removeAttrubuteQuotes是却掉属性的双引号。
                 removeAttributeQuotes:true
@@ -118,7 +163,17 @@ module.exports = {
         new webpack.ProvidePlugin({
             $:'jquery',
             Vue:'vue'
-        })
+        }),
+        
+        /**
+         * 在打包后的文件里添加备注或者版权信息的插件
+         */
+        new webpack.BannerPlugin('Youngwell版权所有，webpack入门学习笔记，请访问：https://youngwellcool.github.io/'),
+
+        // new copyPlugin([{
+        //     form:__dirname + '/src/public',
+        //     to:'./public'
+        // }])
 
     ],  
     devServer: {
@@ -129,13 +184,21 @@ module.exports = {
         //服务端压缩是否开启
         compress: true,
         //配置服务端口号
-        port: 1717,
+        port: 1717, 
         // open: true
     },
     resolve: {
         alias: { // 设置别名 
             'vue': 'vue/dist/vue.js'  // 设置vue=vue/dist/vue.js，不手动设置的话默认vue=vue/dist/vue.runtime.js(引用运行时的vue就会报错)
             }
-    }
+    },
+    watchOptions:{
+        //检测修改的时间，以毫秒为单位
+        poll:1000, 
+        //防止重复保存而发生重复编译错误。这里设置的500是半秒内重复保存，不进行打包操作
+        aggregateTimeout:500, 
+        //不监听的目录
+        ignored:/node_modules/, 
+    },
 
 }
