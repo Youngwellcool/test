@@ -4,7 +4,11 @@ const extractPlugin = require('extract-text-webpack-plugin');
 const htmlPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const purifyCssPlugin = require('purifycss-webpack');
+<<<<<<< HEAD
 const entry =  require('./webpack_config/entry_webpack.js');  // 引入自定义的一个打包入口文件
+=======
+const entry =  require('./webpack_config/entry_webpack.js');  // 引入自定义的一个打包入口模块
+>>>>>>> b7a105020ce8fa35ee865e25c9968bc9931493b7
 let websit = {
     publicPath:'http://127.0.0.1:1717'
 }
@@ -35,19 +39,18 @@ module.exports = {
     module:{
         rules:[
             {
-                test: /\.(css|scss)$/,
+                test: /\.(css|less)$/,
                 use: extractPlugin.extract({   // css代码分离插件
                     fallback: "style-loader",
                     // use: "css-loader",
                     use:[{
                         loader: "css-loader"
-                    }, 
-                    // {
-                    //     loader: "less-loader"
-                    // },
-                    {
-                        loader: "sass-loader"
+                    }, {
+                        loader: "less-loader"
                     },
+                    // {
+                    //     loader: "sass-loader"
+                    // }
                         'postcss-loader',  // 对css新特性，自动补全前缀，需和插件autoprefixer（自动添加前缀的插件）一起使用，此外还需在该配置文件的同级目录下新建postcss.config.js文件，默认只会补全-webkit-前缀，如需补全其他前缀需在package.json中添加browserslist参数配置
                 ],
                     publicPath:'../'    // TODO 解决分离后的css的图片url路径问题
