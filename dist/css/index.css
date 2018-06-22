@@ -1,19 +1,19 @@
+<<<<<<< HEAD
+=======
+/*! Youngwell版权所有，webpack入门学习笔记，请访问：https://youngwellcool.github.io/ */
+>>>>>>> 8c690314c02089b5b78788f85760c13e70b0a1fd
 body {
   background: #ddd;
   color: #f0f;
+  font-size: 20px;
 }
 
 #pic {
   background: url(../images/timg.59ff98c7fc899460c927e0bd8842a0e0.jpg);
   width: 500px;
   height: 400px;
-  -webkit-transform: translateX(100px);
   transform: translateX(100px);
-  -webkit-box-shadow: 0 0 10px #ddd;
   box-shadow: 0 0 10px #ddd;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
 }
 

@@ -1,6 +1,7 @@
 body{
     background: #ddd;
     color: #f0f;
+    font-size: 20px;
 }
 #pic{
     background: url(../images/timg.jpg);
